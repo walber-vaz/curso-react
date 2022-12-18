@@ -1,6 +1,7 @@
 import { Component } from "react";
-import PostCard from "./components/PostCard";
 
+import Posts from "./components/Posts";
+import { loadPosts } from "./utils/fetchPosts";
 import "./App.css";
 
 /* Componente funcional */
@@ -38,22 +39,11 @@ class App extends Component {
   // Sera executado uma vez assim que componente e montado
   async componentDidMount() {
     // this.handleTimeOut();
-    this.fetchPost();
+    await this.fetchPost();
   }
 
   fetchPost = async () => {
-    const postRes = fetch("https://jsonplaceholder.typicode.com/posts");
-    const imageRes = fetch("https://jsonplaceholder.typicode.com/photos");
-
-    const [posts, image] = await Promise.all([postRes, imageRes]);
-
-    const postsToJson = await posts.json();
-    const imageToJson = await image.json();
-
-    const postAndImage = postsToJson.map((post, index) => {
-      return { ...post, cover: imageToJson[index].url };
-    });
-
+    const postAndImage = await loadPosts();
     this.setState({ posts: postAndImage });
   };
 
@@ -92,11 +82,7 @@ class App extends Component {
     const { posts } = this.state;
     return (
       <section className="container">
-        <div className="posts">
-          {posts.map((post) => (
-            <PostCard post={post} key={post.id} />
-          ))}
-        </div>
+        <Posts posts={posts} />
       </section>
     );
   }
