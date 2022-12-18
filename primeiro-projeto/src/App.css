@@ -11,21 +11,3 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
 }
-
-.post {
-  background: #f8f8f8;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-  transition: transform 100ms ease-in-out;
-}
-
-.post:hover {
-  transform: scale(1.05);
-}
-
-.post img {
-  max-width: 100%;
-}
-
-.post-card {
-  padding: 30px;
-}
