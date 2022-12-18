@@ -1,5 +1,7 @@
 import { Component } from "react";
 
+import "./App.css";
+
 /* Componente funcional */
 // function App() {
 //   return (
@@ -24,91 +26,83 @@ class App extends Component {
 
   // Class fields outra forma de usar state sem o constructor
   state = {
-    name: "Contador: ",
-    counter: 0,
-    posts: [
-      {
-        id: 1,
-        title: "O titulo 1",
-        body: "O body 1",
-      },
-      {
-        id: 2,
-        title: "O titulo 2",
-        body: "O body 2",
-      },
-      {
-        id: 3,
-        title: "O titulo 3",
-        body: "O body 3",
-      },
-    ],
-    timeoutUpdate: null,
+    // name: "Contador: ",
+    // counter: 0,
+    posts: [],
+    // timeoutUpdate: null,
   };
 
   /* LifeCircle Methods */
 
   // Sera executado uma vez assim que componente e montado
-  componentDidMount() {
-    this.handleTimeOut();
+  async componentDidMount() {
+    // this.handleTimeOut();
+    this.fetchPost();
   }
 
-  componentDidUpdate() {
-    this.handleTimeOut();
-  }
+  fetchPost = async () => {
+    const postRes = fetch("https://jsonplaceholder.typicode.com/posts");
+    const imageRes = fetch("https://jsonplaceholder.typicode.com/photos");
 
-  // Limpando 'lixo' do componente
-  componentWillUnmount() {
-    clearTimeout(this.timeoutUpdate);
-  }
+    const [posts, image] = await Promise.all([postRes, imageRes]);
 
-  handleTimeOut = () => {
-    const { posts, counter } = this.state;
-    posts[0].title = "O titulo mundou!";
-    this.timeoutUpdate = setTimeout(() => {
-      this.setState({ posts, counter: counter + 1 });
-    }, 1000);
+    const postsToJson = await posts.json();
+    const imageToJson = await image.json();
+
+    const postAndImage = postsToJson.map((post, index) => {
+      return { ...post, cover: imageToJson[index].url };
+    });
+
+    this.setState({ posts: postAndImage });
   };
+
+  // componentDidUpdate() {
+  //   // this.handleTimeOut();
+  // }
+
+  // // Limpando 'lixo' do componente
+  // componentWillUnmount() {
+  //   // clearTimeout(this.timeoutUpdate);
+  // }
+
+  // handleTimeOut = () => {
+  //   const { posts, counter } = this.state;
+  //   posts[0].title = "O titulo mundou!";
+  //   this.timeoutUpdate = setTimeout(() => {
+  //     this.setState({ posts, counter: counter + 1 });
+  //   }, 1000);
+  // };
 
   // Metodo
-  handleClickP = () => {
-    // Mudar o estado
-    // Sempre que mudar o estado o handler e chamado
-    this.setState({ name: "w2k" });
-  };
+  // handleClickP = () => {
+  //   // Mudar o estado
+  //   // Sempre que mudar o estado o handler e chamado
+  //   this.setState({ name: "w2k" });
+  // };
 
   // Segunda forma de usar this no metodo
-  handleClickA = (event) => {
-    event.preventDefault();
-    const { counter } = this.state;
-    this.setState({ counter: counter + 1 });
-  };
+  // handleClickA = (event) => {
+  //   event.preventDefault();
+  //   const { counter } = this.state;
+  //   this.setState({ counter: counter + 1 });
+  // };
 
   render() {
-    const { name, counter, posts } = this.state;
+    const { posts } = this.state;
     return (
-      <div>
-        <h1>Componente Class</h1>
-        {/* Evento sintético onClick */}
-        <h1 onClick={this.handleClickP}>
-          {name} {counter}
-        </h1>
-        <a
-          href="https://google.com.br"
-          target="_blank"
-          onClick={this.handleClickA}
-        >
-          Este é o link
-        </a>
-        <div>
-          {posts.map(({ id, title, body }) => (
-            <article key={id}>
-              <h2>{title}</h2>
-              <p>{body}</p>
-            </article>
+      <section className="container">
+        <div className="posts">
+          {posts.map(({ id, title, body, cover }) => (
+            <div key={id} className="post">
+              <img src={cover} alt={title} />
+              <article className="post-card">
+                <h2>{title}</h2>
+                <p>{body}</p>
+              </article>
+            </div>
           ))}
         </div>
-      </div>
+      </section>
     );
   }
 }
