@@ -24,7 +24,7 @@ class App extends Component {
 
   // Class fields outra forma de usar state sem o constructor
   state = {
-    name: "Walber Vaz da Silva",
+    name: "Contador: ",
     counter: 0,
     posts: [
       {
@@ -43,6 +43,31 @@ class App extends Component {
         body: "O body 3",
       },
     ],
+    timeoutUpdate: null,
+  };
+
+  /* LifeCircle Methods */
+
+  // Sera executado uma vez assim que componente e montado
+  componentDidMount() {
+    this.handleTimeOut();
+  }
+
+  componentDidUpdate() {
+    this.handleTimeOut();
+  }
+
+  // Limpando 'lixo' do componente
+  componentWillUnmount() {
+    clearTimeout(this.timeoutUpdate);
+  }
+
+  handleTimeOut = () => {
+    const { posts, counter } = this.state;
+    posts[0].title = "O titulo mundou!";
+    this.timeoutUpdate = setTimeout(() => {
+      this.setState({ posts, counter: counter + 1 });
+    }, 1000);
   };
 
   // Metodo
@@ -65,9 +90,9 @@ class App extends Component {
       <div>
         <h1>Componente Class</h1>
         {/* Evento sintético onClick */}
-        <p onClick={this.handleClickP}>
+        <h1 onClick={this.handleClickP}>
           {name} {counter}
-        </p>
+        </h1>
         <a
           href="https://google.com.br"
           target="_blank"
