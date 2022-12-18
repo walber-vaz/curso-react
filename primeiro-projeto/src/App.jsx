@@ -26,6 +26,23 @@ class App extends Component {
   state = {
     name: "Walber Vaz da Silva",
     counter: 0,
+    posts: [
+      {
+        id: 1,
+        title: "O titulo 1",
+        body: "O body 1",
+      },
+      {
+        id: 2,
+        title: "O titulo 2",
+        body: "O body 2",
+      },
+      {
+        id: 3,
+        title: "O titulo 3",
+        body: "O body 3",
+      },
+    ],
   };
 
   // Metodo
@@ -43,7 +60,7 @@ class App extends Component {
   };
 
   render() {
-    const { name, counter } = this.state;
+    const { name, counter, posts } = this.state;
     return (
       <div>
         <h1>Componente Class</h1>
@@ -58,6 +75,14 @@ class App extends Component {
         >
           Este é o link
         </a>
+        <div>
+          {posts.map(({ id, title, body }) => (
+            <article key={id}>
+              <h2>{title}</h2>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
       </div>
     );
   }
