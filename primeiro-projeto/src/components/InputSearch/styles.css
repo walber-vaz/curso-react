@@ -29,4 +29,7 @@
   .input-search {
     width: 100%;
   }
+  .container-search {
+    width: 90%;
+  }
 }
