@@ -1,6 +1,7 @@
 import { Component } from "react";
 import ButtonMorePosts from "../../components/ButtonMorePosts";
 import InputSearch from "../../components/InputSearch";
+import NotPost from "../../components/NotPost";
 
 import Posts from "../../components/Posts";
 import { loadPosts } from "../../utils/fetchPosts";
@@ -117,11 +118,7 @@ class App extends Component {
           handleChange={this.handleChange}
         />
 
-        {filterPosts.length > 0 ? (
-          <Posts posts={filterPosts} />
-        ) : (
-          <p>Nenhum post encontrado</p>
-        )}
+        {filterPosts.length > 0 ? <Posts posts={filterPosts} /> : <NotPost />}
         <div className="btn-container">
           {!searchValue && (
             <ButtonMorePosts

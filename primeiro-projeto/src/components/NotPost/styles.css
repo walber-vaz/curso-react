@@ -1,0 +1,14 @@
+.container-not-post {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+
+.container-not-post p {
+  font-size: 30px;
+  font-family: Helvetica, sans-serif;
+}
