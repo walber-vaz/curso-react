@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import ButtonMorePosts from "../../components/ButtonMorePosts";
 import InputSearch from "../../components/InputSearch";
@@ -9,128 +9,55 @@ import { loadPosts } from "../../utils/fetchPosts";
 import "./styles.css";
 
 /* Componente funcional */
-// function App() {
-//   return (
-//     <div>
-//       <h1>Componente Funcional</h1>
-//     </div>
-//   );
-// }
+const Home = () => {
+  const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
+  const [page, setPage] = useState(0);
+  const [postsPerPage] = useState(6);
+  const [searchValue, setSearchValue] = useState("");
 
-/* Componente Class */
-class App extends Component {
-  /* Estado do componente */
-  // constructor(props) {
-  //   super(props);
-  //   // Fazer bind para que metodo posso recebe this da class
-  //   this.handleClickP = this.handleClickP.bind(this);
-  //   this.state = {
-  //     name: "Walber Vaz da Silva",
-  //     counter: 0,
-  //   };
-  // }
-
-  // Class fields outra forma de usar state sem o constructor
-  state = {
-    // name: "Contador: ",
-    // counter: 0,
-    posts: [],
-    allPosts: [],
-    page: 0,
-    postsPerPage: 6,
-    searchValue: "",
-    // timeoutUpdate: null,
-  };
-
-  /* LifeCircle Methods */
-
-  // Sera executado uma vez assim que componente e montado
-  async componentDidMount() {
-    // this.handleTimeOut();
-    await this.fetchPost();
-  }
-
-  fetchPost = async () => {
-    const { page, postsPerPage } = this.state;
+  const fetchPost = useCallback(async (page, postsPerPage) => {
     const postAndImage = await loadPosts();
-    this.setState({
-      posts: postAndImage.slice(page, postsPerPage),
-      allPosts: postAndImage,
-    });
-  };
 
-  loadMorePosts = () => {
-    const { page, postsPerPage, allPosts, posts } = this.state;
+    setPosts(postAndImage.slice(page, postsPerPage));
+    setAllPosts(postAndImage);
+  }, []);
 
+  useEffect(() => {
+    fetchPost(0, postsPerPage);
+  }, [fetchPost, postsPerPage]);
+
+  const loadMorePosts = () => {
     const nextPage = page + postsPerPage;
     const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
 
     posts.push(...nextPosts);
-    this.setState({ posts, page: nextPage });
+    setPosts(posts);
+    setPage(nextPage);
   };
 
-  handleChange = ({ target: { value } }) => {
-    this.setState({ searchValue: value });
+  const handleChange = ({ target: { value } }) => {
+    setSearchValue(value);
   };
 
-  // componentDidUpdate() {
-  //   // this.handleTimeOut();
-  // }
+  const noMorePosts = page + postsPerPage >= allPosts.length;
+  const filterPosts = !!searchValue
+    ? allPosts.filter((post) => {
+        return post.title.toLowerCase().includes(searchValue.toLowerCase());
+      })
+    : posts;
+  return (
+    <section className="container">
+      <InputSearch searchValue={searchValue} handleChange={handleChange} />
 
-  // // Limpando 'lixo' do componente
-  // componentWillUnmount() {
-  //   // clearTimeout(this.timeoutUpdate);
-  // }
+      {filterPosts.length > 0 ? <Posts posts={filterPosts} /> : <NotPost />}
+      <div className="btn-container">
+        {!searchValue && (
+          <ButtonMorePosts loadPosts={loadMorePosts} disabled={noMorePosts} />
+        )}
+      </div>
+    </section>
+  );
+};
 
-  // handleTimeOut = () => {
-  //   const { posts, counter } = this.state;
-  //   posts[0].title = "O titulo mundou!";
-  //   this.timeoutUpdate = setTimeout(() => {
-  //     this.setState({ posts, counter: counter + 1 });
-  //   }, 1000);
-  // };
-
-  // Metodo
-  // handleClickP = () => {
-  //   // Mudar o estado
-  //   // Sempre que mudar o estado o handler e chamado
-  //   this.setState({ name: "w2k" });
-  // };
-
-  // Segunda forma de usar this no metodo
-  // handleClickA = (event) => {
-  //   event.preventDefault();
-  //   const { counter } = this.state;
-  //   this.setState({ counter: counter + 1 });
-  // };
-
-  render() {
-    const { posts, page, postsPerPage, allPosts, searchValue } = this.state;
-    const noMorePosts = page + postsPerPage >= allPosts.length;
-    const filterPosts = !!searchValue
-      ? allPosts.filter((post) => {
-          return post.title.toLowerCase().includes(searchValue.toLowerCase());
-        })
-      : posts;
-    return (
-      <section className="container">
-        <InputSearch
-          searchValue={searchValue}
-          handleChange={this.handleChange}
-        />
-
-        {filterPosts.length > 0 ? <Posts posts={filterPosts} /> : <NotPost />}
-        <div className="btn-container">
-          {!searchValue && (
-            <ButtonMorePosts
-              loadPosts={this.loadMorePosts}
-              disabled={noMorePosts}
-            />
-          )}
-        </div>
-      </section>
-    );
-  }
-}
-
-export default App;
+export default Home;
