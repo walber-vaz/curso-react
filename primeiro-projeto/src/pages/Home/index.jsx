@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 
-import ButtonMorePosts from "../../components/ButtonMorePosts";
-import InputSearch from "../../components/InputSearch";
-import NotPost from "../../components/NotPost";
 import Posts from "../../components/Posts";
+import NotPost from "../../components/NotPost";
+import InputSearch from "../../components/InputSearch";
+import ButtonMorePosts from "../../components/ButtonMorePosts";
 
 import { loadPosts } from "../../utils/fetchPosts";
 import "./styles.css";

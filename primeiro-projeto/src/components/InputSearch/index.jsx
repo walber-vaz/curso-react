@@ -6,7 +6,7 @@ const InputSearch = (props) => {
   const { searchValue, handleChange } = props;
   return (
     <div className="container-search">
-      {!!searchValue && <h2>Search value: {searchValue}</h2>}
+      {!!searchValue && <h2>Search: {searchValue}</h2>}
       <input
         type="search"
         name="search"

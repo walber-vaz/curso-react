@@ -4,11 +4,12 @@
   align-items: center;
   justify-content: center;
   margin: 30px auto;
-  width: 40%;
+  width: 60%;
   padding: 10px;
 }
 
 .input-search {
+  display: flex;
   min-height: 30px;
   outline: none;
   border: none;
@@ -21,4 +22,5 @@
 
 .input-search::placeholder {
   color: #888;
+  text-align: center;
 }
