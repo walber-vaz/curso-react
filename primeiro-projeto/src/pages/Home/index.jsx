@@ -1,9 +1,10 @@
 import { Component } from "react";
+
 import ButtonMorePosts from "../../components/ButtonMorePosts";
 import InputSearch from "../../components/InputSearch";
 import NotPost from "../../components/NotPost";
-
 import Posts from "../../components/Posts";
+
 import { loadPosts } from "../../utils/fetchPosts";
 import "./styles.css";
 
