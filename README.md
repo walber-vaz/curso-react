@@ -2,6 +2,10 @@
 
 Curso de ReactJS, NextJS, Styled-Components, Testes com Jest , Storybook, Strapi, HTML e CSS com TypeScript e JavaScript.
 
+# Demostração
+
+- [Projeto Blog](https://blog-react-2k.netlify.app/)
+
 ## Referência
 
 - [ReactJS](https://pt-br.reactjs.org/)
