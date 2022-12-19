@@ -1,5 +1,6 @@
 import { Component } from "react";
 import ButtonMorePosts from "../../components/ButtonMorePosts";
+import InputSearch from "../../components/InputSearch";
 
 import Posts from "../../components/Posts";
 import { loadPosts } from "../../utils/fetchPosts";
@@ -35,6 +36,7 @@ class App extends Component {
     allPosts: [],
     page: 0,
     postsPerPage: 6,
+    searchValue: "",
     // timeoutUpdate: null,
   };
 
@@ -63,6 +65,10 @@ class App extends Component {
 
     posts.push(...nextPosts);
     this.setState({ posts, page: nextPage });
+  };
+
+  handleChange = ({ target: { value } }) => {
+    this.setState({ searchValue: value });
   };
 
   // componentDidUpdate() {
@@ -97,16 +103,32 @@ class App extends Component {
   // };
 
   render() {
-    const { posts, page, postsPerPage, allPosts } = this.state;
+    const { posts, page, postsPerPage, allPosts, searchValue } = this.state;
     const noMorePosts = page + postsPerPage >= allPosts.length;
+    const filterPosts = !!searchValue
+      ? allPosts.filter((post) => {
+          return post.title.toLowerCase().includes(searchValue.toLowerCase());
+        })
+      : posts;
     return (
       <section className="container">
-        <Posts posts={posts} />
+        <InputSearch
+          searchValue={searchValue}
+          handleChange={this.handleChange}
+        />
+
+        {filterPosts.length > 0 ? (
+          <Posts posts={filterPosts} />
+        ) : (
+          <p>Nenhum post encontrado</p>
+        )}
         <div className="btn-container">
-          <ButtonMorePosts
-            loadPosts={this.loadMorePosts}
-            disabled={noMorePosts}
-          />
+          {!searchValue && (
+            <ButtonMorePosts
+              loadPosts={this.loadMorePosts}
+              disabled={noMorePosts}
+            />
+          )}
         </div>
       </section>
     );
