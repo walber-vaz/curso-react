@@ -1,8 +1,9 @@
 import { Component } from "react";
+import ButtonMorePosts from "../../components/ButtonMorePosts";
 
-import Posts from "./components/Posts";
-import { loadPosts } from "./utils/fetchPosts";
-import "./App.css";
+import Posts from "../../components/Posts";
+import { loadPosts } from "../../utils/fetchPosts";
+import "./styles.css";
 
 /* Componente funcional */
 // function App() {
@@ -31,6 +32,9 @@ class App extends Component {
     // name: "Contador: ",
     // counter: 0,
     posts: [],
+    allPosts: [],
+    page: 0,
+    postsPerPage: 6,
     // timeoutUpdate: null,
   };
 
@@ -43,8 +47,22 @@ class App extends Component {
   }
 
   fetchPost = async () => {
+    const { page, postsPerPage } = this.state;
     const postAndImage = await loadPosts();
-    this.setState({ posts: postAndImage });
+    this.setState({
+      posts: postAndImage.slice(page, postsPerPage),
+      allPosts: postAndImage,
+    });
+  };
+
+  loadMorePosts = () => {
+    const { page, postsPerPage, allPosts, posts } = this.state;
+
+    const nextPage = page + postsPerPage;
+    const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
+
+    posts.push(...nextPosts);
+    this.setState({ posts, page: nextPage });
   };
 
   // componentDidUpdate() {
@@ -79,10 +97,17 @@ class App extends Component {
   // };
 
   render() {
-    const { posts } = this.state;
+    const { posts, page, postsPerPage, allPosts } = this.state;
+    const noMorePosts = page + postsPerPage >= allPosts.length;
     return (
       <section className="container">
         <Posts posts={posts} />
+        <div className="btn-container">
+          <ButtonMorePosts
+            loadPosts={this.loadMorePosts}
+            disabled={noMorePosts}
+          />
+        </div>
       </section>
     );
   }

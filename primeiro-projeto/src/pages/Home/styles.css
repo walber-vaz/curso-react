@@ -5,3 +5,10 @@
   margin: 0 auto;
   padding: 30px;
 }
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  min-height: 80px;
+}
