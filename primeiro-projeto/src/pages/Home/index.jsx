@@ -41,7 +41,7 @@ const Home = () => {
   };
 
   const noMorePosts = page + postsPerPage >= allPosts.length;
-  const filterPosts = !!searchValue
+  const filterPosts = searchValue
     ? allPosts.filter((post) => {
         return post.title.toLowerCase().includes(searchValue.toLowerCase());
       })

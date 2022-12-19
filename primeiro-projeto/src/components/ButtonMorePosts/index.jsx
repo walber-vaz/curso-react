@@ -1,9 +1,9 @@
 import React from 'react';
+import { func, bool } from 'prop-types';
 
 import './styles.css';
 
-const ButtonMorePosts = (props) => {
-  const { loadPosts, disabled } = props;
+const ButtonMorePosts = ({ loadPosts, disabled }) => {
   return (
     <button
       disabled={disabled}
@@ -14,6 +14,15 @@ const ButtonMorePosts = (props) => {
       Proximo
     </button>
   );
+};
+
+ButtonMorePosts.defaultProps = {
+  disabled: false,
+};
+
+ButtonMorePosts.propTypes = {
+  loadPosts: func.isRequired,
+  disabled: bool,
 };
 
 export default ButtonMorePosts;

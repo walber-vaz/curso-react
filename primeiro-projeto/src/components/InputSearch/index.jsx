@@ -1,4 +1,5 @@
 import React from 'react';
+import { string, func } from 'prop-types';
 
 import './styles.css';
 
@@ -21,6 +22,11 @@ const InputSearch = (props) => {
       />
     </div>
   );
+};
+
+InputSearch.propTypes = {
+  handleChange: func.isRequired,
+  searchValue: string.isRequired,
 };
 
 export default InputSearch;

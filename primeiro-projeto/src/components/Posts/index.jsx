@@ -1,3 +1,4 @@
+import { array } from 'prop-types';
 import React from 'react';
 import PostCard from '../PostCard';
 
@@ -12,6 +13,10 @@ const Posts = (props) => {
       ))}
     </div>
   );
+};
+
+Posts.propTypes = {
+  posts: array.isRequired,
 };
 
 export default Posts;

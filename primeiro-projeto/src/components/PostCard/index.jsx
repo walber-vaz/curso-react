@@ -1,3 +1,5 @@
+import { string } from 'prop-types';
+import { shape } from 'prop-types';
 import React from 'react';
 
 import './styles.css';
@@ -12,6 +14,14 @@ const PostCard = ({ post: { title, cover, body } }) => {
       </article>
     </div>
   );
+};
+
+PostCard.propTypes = {
+  post: shape({
+    title: string,
+    cover: string,
+    body: string,
+  }).isRequired,
 };
 
 export default PostCard;
