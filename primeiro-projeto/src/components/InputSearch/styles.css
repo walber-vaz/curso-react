@@ -24,3 +24,9 @@
   color: #888;
   text-align: center;
 }
+
+@media (max-width: 600px) {
+  .input-search {
+    width: 100%;
+  }
+}
