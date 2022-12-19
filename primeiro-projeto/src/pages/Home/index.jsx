@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react';
 
-import Posts from "../../components/Posts";
-import NotPost from "../../components/NotPost";
-import InputSearch from "../../components/InputSearch";
-import ButtonMorePosts from "../../components/ButtonMorePosts";
+import Posts from '../../components/Posts';
+import NotPost from '../../components/NotPost';
+import InputSearch from '../../components/InputSearch';
+import ButtonMorePosts from '../../components/ButtonMorePosts';
 
-import { loadPosts } from "../../utils/fetchPosts";
-import "./styles.css";
+import { loadPosts } from '../../utils/fetchPosts';
+import './styles.css';
 
 /* Componente funcional */
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [postsPerPage] = useState(6);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const fetchPost = useCallback(async (page, postsPerPage) => {
     const postAndImage = await loadPosts();

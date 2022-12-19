@@ -1,7 +1,7 @@
-import React from "react";
-import PostCard from "../PostCard";
+import React from 'react';
+import PostCard from '../PostCard';
 
-import "./styles.css";
+import './styles.css';
 
 const Posts = (props) => {
   const { posts } = props;
