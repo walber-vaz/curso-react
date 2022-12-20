@@ -1,15 +1,17 @@
 {
-  "name": "setup-vite",
+  "name": "segundo-projeto",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "lint": "eslint --ext .js,.jsx 'src/**' --fix && prettier --write 'src/**'"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -32,6 +34,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "jsdom": "^20.0.3",
     "prettier": "^2.8.1",
+    "prop-types": "^15.8.1",
     "vite": "^4.0.0",
     "vitest": "^0.26.0"
   }
