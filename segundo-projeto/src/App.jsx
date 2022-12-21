@@ -1,18 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const evenFn = () => {
+  console.log('clicou');
+};
 
 function App() {
-  const [trocar, setTrocar] = useState('Ola');
+  const [counter, setCounter] = useState(0);
 
-  const handleClick = () => {
-    setTrocar('w2k');
-  };
+  // componentDidUpdate - executa toda vez que atualizar o component
+  useEffect(() => {
+    console.log('componentDidUpdate');
+  });
+
+  // componentDidMount - executa uma vez se não estiver nada no array de dependências
+  useEffect(() => {
+    console.log('componentDidMount');
+  }, []);
+
+  // componentDidMount - com dependência - executa toda vez que dependência mudar
+  useEffect(() => {
+    console.log('Comtador mudou para: ', counter);
+  }, [counter]);
+
+  // componentWillUnmount
+  useEffect(() => {
+    document.querySelector('h1').addEventListener('click', evenFn);
+
+    // limpa a sujeira deixado pelo componente
+    return () => {
+      document.querySelector('h1').removeEventListener('click', evenFn);
+    };
+  });
 
   return (
     <div>
-      <h1>{trocar}</h1>
-      <button type="button" onClick={handleClick}>
-        Trocar
-      </button>
+      <h1>Hooks - useEffect</h1>
+      <h2>counter: {counter}</h2>
+      <button onClick={() => setCounter(counter + 1)}>+</button>
     </div>
   );
 }
