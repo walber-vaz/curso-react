@@ -1,42 +1,29 @@
-import { useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
+import { func } from 'prop-types';
 
-const evenFn = () => {
-  console.log('clicou');
+const Button = React.memo(function Button({ handleClick }) {
+  console.log('Componete Filho');
+  return <button onClick={() => handleClick(10)}>+</button>;
+});
+
+Button.propTypes = {
+  handleClick: func,
 };
 
 function App() {
   const [counter, setCounter] = useState(0);
 
-  // componentDidUpdate - executa toda vez que atualizar o component
-  useEffect(() => {
-    console.log('componentDidUpdate');
-  });
-
-  // componentDidMount - executa uma vez se não estiver nada no array de dependências
-  useEffect(() => {
-    console.log('componentDidMount');
+  const handleClick = useCallback((num) => {
+    setCounter((prevState) => prevState + num);
   }, []);
 
-  // componentDidMount - com dependência - executa toda vez que dependência mudar
-  useEffect(() => {
-    console.log('Comtador mudou para: ', counter);
-  }, [counter]);
-
-  // componentWillUnmount
-  useEffect(() => {
-    document.querySelector('h1').addEventListener('click', evenFn);
-
-    // limpa a sujeira deixado pelo componente
-    return () => {
-      document.querySelector('h1').removeEventListener('click', evenFn);
-    };
-  });
+  console.log('Componete Pai');
 
   return (
     <div>
       <h1>Hooks - useEffect</h1>
       <h2>counter: {counter}</h2>
-      <button onClick={() => setCounter(counter + 1)}>+</button>
+      <Button handleClick={handleClick}>+</Button>
     </div>
   );
 }
