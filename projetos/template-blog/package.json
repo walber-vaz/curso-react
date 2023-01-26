@@ -1,5 +1,5 @@
 {
-  "name": "segundo-projeto",
+  "name": "template-blog",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -34,13 +34,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "eslint": "^8.30.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.11",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^2.8.1"
   }
 }
