@@ -2,19 +2,23 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true,
     "jest": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended",
-    "standard"
-  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
+  ],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -23,13 +27,8 @@
       "jsx": true
     }
   },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
   "plugins": ["react", "react-hooks", "prettier"],
   "rules": {
-    "semi": "on"
+    "react/react-in-jsx-scope": "off"
   }
 }
