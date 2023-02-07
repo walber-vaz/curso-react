@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import InputSearch from '../../components/InputSearch';
 
@@ -15,14 +15,15 @@ function Home() {
   const [postsPerPage] = useState(6);
   const [searchValue, setSearchValue] = useState('');
 
-  useEffect(() => {
-    async function getPosts() {
-      const posts = await fetchApi();
-      setPost(posts.slice(page, postsPerPage));
-      setAllPosts(posts);
-    }
-    getPosts();
+  const handleLoadPost = useCallback(async (page, postsPerPage) => {
+    const posts = await fetchApi();
+    setPost(posts.slice(page, postsPerPage));
+    setAllPosts(posts);
   }, []);
+
+  useEffect(() => {
+    handleLoadPost(0, postsPerPage);
+  }, [handleLoadPost, postsPerPage]);
 
   const handleClick = () => {
     const nextPage = page + postsPerPage;
@@ -34,20 +35,15 @@ function Home() {
 
   const handleChange = ({ target: { value } }) => {
     setSearchValue(value);
-
-    if (value.length > 0) {
-      const filteredPosts = allPosts.filter(post => {
-        return post.title.toLowerCase().includes(value.toLowerCase());
-      });
-      setPost(filteredPosts);
-    }
-
-    if (value.length === 0) {
-      setPost(allPosts.slice(page, postsPerPage));
-    }
   };
 
   const noMorePosts = page + postsPerPage >= allPosts.length;
+  const fitleredPosts = searchValue
+    ? allPosts.filter(post => {
+        return post.title.toLowerCase().includes(searchValue.toLowerCase());
+      })
+    : post;
+
   return (
     <section className={styles.container} onChange={handleChange}>
       {!!searchValue && (
@@ -55,8 +51,9 @@ function Home() {
           <h1>Search value: {searchValue}</h1>
         </>
       )}
-      {/* Imprimir na tela uma mensagem se não encontra nenhum post na pesquisa */}
-      {post.length === 0 && <p>Não existem posts com o valor pesquisado</p>}
+      {fitleredPosts.length === 0 && (
+        <p>Não existem posts com o valor pesquisado</p>
+      )}
       <InputSearch searchValue={searchValue} handleChange={handleChange} />
       <div className={styles.posts}>
         {post.map(post => (
