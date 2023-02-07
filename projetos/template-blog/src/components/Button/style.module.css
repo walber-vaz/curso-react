@@ -1,0 +1,29 @@
+.btn {
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin: 0 auto;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #333;
+}
+
+.btn:active {
+  background-color: #666;
+}
+
+.btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
